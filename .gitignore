@@ -43,3 +43,4 @@ bin/
 com.rurbisservices.demo.kafka/build
 com.rurbisservices.demo.kafka/.gradle
 com.rurbisservices.demo.kafka/gradle
+data/
