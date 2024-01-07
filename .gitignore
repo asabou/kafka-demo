@@ -1,0 +1,45 @@
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### IntelliJ IDEA ###
+com.rurbisservices.demo.kafka/.idea/modules.xml
+com.rurbisservices.demo.kafka/.idea/jarRepositories.xml
+com.rurbisservices.demo.kafka/.idea/compiler.xml
+com.rurbisservices.demo.kafka/.idea/libraries/
+com.rurbisservices.demo.kafka/*.iws
+com.rurbisservices.demo.kafka/*.iml
+com.rurbisservices.demo.kafka/*.ipr
+com.rurbisservices.demo.kafka/out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+com.rurbisservices.demo.kafka/build
+com.rurbisservices.demo.kafka/.gradle
+com.rurbisservices.demo.kafka/gradle
