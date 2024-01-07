@@ -15,7 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import static com.rurbisservices.demo.kafka.utils.ServiceUtils.*;
+import static com.rurbisservices.demo.kafka.utils.ServiceUtils.convertStringToInt;
+import static com.rurbisservices.demo.kafka.utils.ServiceUtils.generateRandomString;
 
 public class KafkaProducer {
     public static void main(String[] args) throws Exception {
@@ -26,39 +27,26 @@ public class KafkaProducer {
         Schema3ProducerImpl schema3Producer = new Schema3ProducerImpl(topics.get(2), CustomSchema3.class);
         Schema4ProducerImpl schema4Producer = new Schema4ProducerImpl(topics.get(3), CustomSchema4.class);
 
-        //produce 1000 messages on different topics
-        for (int i = 0; i < 1000; i++) {
-            int topicIndex = getRandomInt(topics.size());
-            switch (topicIndex) {
-                case 0: {
-                    schema1Producer.produce(new CustomSchema1()
-                            .withProperty1(generateRandomString()));
-                    break;
-                }
-                case 1: {
-                    schema2Producer.produce(new CustomSchema2()
-                            .withProperty1(generateRandomString())
-                            .withProperty2(generateRandomString()));
-                    break;
-                }
-                case 2: {
-                    schema3Producer.produce(new CustomSchema3()
-                            .withProperty1(generateRandomString())
-                            .withProperty2(generateRandomString())
-                            .withProperty3(generateRandomString()));
-                    break;
-                }
-                case 3: {
-                    schema4Producer.produce(new CustomSchema4()
-                            .withProperty1(generateRandomString())
-                            .withProperty2(generateRandomString())
-                            .withProperty3(generateRandomString())
-                            .withProperty4(generateRandomString()));
-                    break;
-                }
-                default:
-                    break;
-            }
+        int noMessages = convertStringToInt(properties.getProperty(Constants.KAFKA_TOPIC_NUMBER_OF_MESSAGES));
+        for (int i = 0; i < noMessages; i++) {
+            schema1Producer.produce(new CustomSchema1()
+                    .withProperty1(generateRandomString()));
+
+            schema2Producer.produce(new CustomSchema2()
+                    .withProperty1(generateRandomString())
+                    .withProperty2(generateRandomString()));
+
+            schema3Producer.produce(new CustomSchema3()
+                    .withProperty1(generateRandomString())
+                    .withProperty2(generateRandomString())
+                    .withProperty3(generateRandomString()));
+
+            schema4Producer.produce(new CustomSchema4()
+                    .withProperty1(generateRandomString())
+                    .withProperty2(generateRandomString())
+                    .withProperty3(generateRandomString())
+                    .withProperty4(generateRandomString()));
+
         }
     }
 }

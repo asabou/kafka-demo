@@ -23,13 +23,13 @@ public class KafkaConsumer {
         Schema1ConsumerImpl schema1Consumer = new Schema1ConsumerImpl(topics.get(0), CustomSchema1.class);
         schema1Consumer.consume();
 
-//        Schema2ConsumerImpl schema2Consumer = new Schema2ConsumerImpl(topics.get(1), CustomSchema2.class);
-//        schema2Consumer.consume();
-//
-//        Schema3ConsumerImpl schema3Consumer = new Schema3ConsumerImpl(topics.get(2), CustomSchema3.class);
-//        schema3Consumer.consume();
-//
-//        Schema4ConsumerImpl schema4Consumer = new Schema4ConsumerImpl(topics.get(3), CustomSchema4.class);
-//        schema4Consumer.consume();
+        Schema2ConsumerImpl schema2Consumer = new Schema2ConsumerImpl(topics.get(1), CustomSchema2.class);
+        schema2Consumer.consume();
+
+        Schema3ConsumerImpl schema3Consumer = new Schema3ConsumerImpl(topics.get(2), CustomSchema3.class);
+        schema3Consumer.consume();
+
+        Schema4ConsumerImpl schema4Consumer = new Schema4ConsumerImpl(topics.get(3), CustomSchema4.class);
+        schema4Consumer.consume();
     }
 }

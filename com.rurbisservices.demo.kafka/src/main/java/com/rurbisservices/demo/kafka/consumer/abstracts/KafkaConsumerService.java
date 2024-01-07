@@ -2,6 +2,8 @@ package com.rurbisservices.demo.kafka.consumer.abstracts;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rurbisservices.demo.kafka.utils.AppProperties;
+import com.rurbisservices.demo.kafka.utils.Constants;
+import com.rurbisservices.demo.kafka.utils.ServiceUtils;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.Properties;
 
 public abstract class KafkaConsumerService<T> {
 
@@ -31,15 +34,19 @@ public abstract class KafkaConsumerService<T> {
         try (Consumer<String, String> consumer = new KafkaConsumer<>(AppProperties.loadProperties())) {
             log.info("Subscribing to topic: {}", topic);
             consumer.subscribe(Collections.singleton(topic));
+            Properties properties = AppProperties.loadProperties();
+            int noKafkaMessagesToConsume = ServiceUtils.convertStringToInt(properties.getProperty(Constants.KAFKA_TOPIC_NUMBER_OF_MESSAGES));
+            int noKafkaMessagesConsumed = 0;
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
                 log.info("In loop ...");
-                //TODO: check if somehow kafka consumer can consume messages from a defined offset
-                //      with other words, check if messages produced before starting the consumer can be consumed
-                //      right now, the producer and consumer must run simultaneously in order to see how the messages are consumed
                 records.forEach(record -> {
                     consumeMessage(record.key(), deserializeMessage(record.value()));
                 });
+                noKafkaMessagesConsumed += records.count();
+                if (noKafkaMessagesConsumed >= noKafkaMessagesToConsume) {
+                    break;
+                }
             }
         } catch (Exception e) {
             log.error("Exception when trying to consume: {}", e.getMessage());

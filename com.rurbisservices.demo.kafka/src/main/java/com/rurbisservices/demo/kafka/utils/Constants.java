@@ -5,4 +5,6 @@ public interface Constants {
     String KAFKA_TOPICS_NAME = "kafka.topics.name";
     String KAFKA_TOPIC_PARTITIONS = "kafka.topic.partitions";
     String KAFKA_TOPIC_REPLICATION = "kafka.topic.replication";
+
+    String KAFKA_TOPIC_NUMBER_OF_MESSAGES = "kafka.topic.no_messages";
 }
