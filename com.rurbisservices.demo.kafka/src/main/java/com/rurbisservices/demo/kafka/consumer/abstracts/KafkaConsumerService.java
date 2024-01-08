@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rurbisservices.demo.kafka.utils.AppProperties;
 import com.rurbisservices.demo.kafka.utils.Constants;
 import com.rurbisservices.demo.kafka.utils.ServiceUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -14,9 +15,8 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
+@Slf4j
 public abstract class KafkaConsumerService<T> {
-
-    private static final Logger log = LoggerFactory.getLogger(KafkaConsumerService.class);
 
     private String topic;
     private Class<T> classType;
@@ -41,7 +41,7 @@ public abstract class KafkaConsumerService<T> {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
                 log.info("In loop ...");
                 records.forEach(record -> {
-                    consumeMessage(record.key(), deserializeMessage(record.value()));
+                    consumeMessage(record.key(), ServiceUtils.deserializeMessage(record.value(), classType));
                 });
                 noKafkaMessagesConsumed += records.count();
                 if (noKafkaMessagesConsumed >= noKafkaMessagesToConsume) {
@@ -58,15 +58,5 @@ public abstract class KafkaConsumerService<T> {
      * @param message T
      */
     public abstract void consumeMessage(String key, T message);
-
-    private T deserializeMessage(String message) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.readValue(message, classType);
-        } catch (Exception e) {
-            log.error("Exception when deserializing object: {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
 
 }

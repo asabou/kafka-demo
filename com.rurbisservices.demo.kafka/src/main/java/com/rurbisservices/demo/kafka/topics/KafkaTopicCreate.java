@@ -30,8 +30,12 @@ public class KafkaTopicCreate {
                     .filter(topic -> !KafkaUtils.topicExists(adminClient, topic))
                     .map(topic -> new NewTopic(topic, partitions, replication).configs(new HashMap<>()))
                     .collect(Collectors.toList());
-            adminClient.createTopics(newTopics).all().get();
-            log.info("Topics created: {}", newTopics);
+            if (!newTopics.isEmpty()) {
+                adminClient.createTopics(newTopics).all().get();
+                log.info("Topics created: {}", newTopics);
+            } else {
+                log.warn("All topics already exists");
+            }
         } catch (Exception e) {
             log.error("Exception when trying to create topics: {}", e.getMessage());
         }

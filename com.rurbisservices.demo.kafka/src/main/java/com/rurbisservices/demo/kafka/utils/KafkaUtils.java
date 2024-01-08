@@ -1,11 +1,12 @@
 package com.rurbisservices.demo.kafka.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class KafkaUtils {
-    private static final Logger log = LoggerFactory.getLogger(KafkaUtils.class);
     public static boolean topicExists(AdminClient adminClient, String topic) {
         try {
             return adminClient.listTopics().names().get().contains(topic);
